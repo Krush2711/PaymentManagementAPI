@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http; // same like the import pandas as pd -> it is the existing class that we are going to use.
 using Microsoft.AspNetCore.Mvc;
-using PaymentManagementAPI.Models; // this is the created class / folder we are going to use. tells the C# controller  -> Payment inside the controller
+using PaymentManagementAPI.Interfaces;
+using PaymentManagementAPI.Models; // this is the created class / folder we are going to use. tells the C# controller  -> Payment ins
 
 namespace PaymentManagementAPI.Controllers
 {
@@ -11,29 +12,15 @@ namespace PaymentManagementAPI.Controllers
         [HttpGet]
         public IActionResult GetResult()
         {
-            var payments = new List<Payment>()
-            {
-                new Payment
-                {
-                    PaymnetId = 1,
-                    PayerName = "Krushna",
-                    Amount = 500,
-                    PaymentMethod = "UPI",
-                    PaymnetDate =  DateTime.Now,
-                    Status = "Success"
-                },
-                new Payment
-                {
-                    PaymnetId = 2,
-                    PayerName = "Rahul",
-                    Amount = 1990,
-                    PaymentMethod = "Credit Card",
-                    PaymnetDate =  DateTime.Now,
-                    Status = "Pending"
-                },
-            };
+             var payments = _paymentService.GetAllPayments();
+             return Ok(payments);
+        }
 
-            return Ok(payments);
+        private readonly IPaymentService _paymentService;
+
+        public PaymentsController(IPaymentService paymentService)
+        {
+            _paymentService = paymentService;
         }
     }
 }

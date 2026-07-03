@@ -1,4 +1,7 @@
 
+using PaymentManagementAPI.Interfaces;
+using PaymentManagementAPI.Services;
+
 namespace PaymentManagementAPI
 {
     public class Program
@@ -10,6 +13,8 @@ namespace PaymentManagementAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IPaymentService, PaymentService>(); //Whenever someone asks for an IPaymentService, give them a PaymentService.
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
