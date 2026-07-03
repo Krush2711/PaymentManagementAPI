@@ -9,14 +9,15 @@ namespace PaymentManagementAPI.Controllers
     [Route("api/[controller]")]
     public class PaymentsController : ControllerBase
     {
+        private readonly IPaymentService _paymentService; // reference variable
+
         [HttpGet]
-        public IActionResult GetResult()
+        public IActionResult GetResult() //Constructor = Receiving dependencies.
         {
              var payments = _paymentService.GetAllPayments();
              return Ok(payments);
         }
 
-        private readonly IPaymentService _paymentService;
 
         public PaymentsController(IPaymentService paymentService)
         {

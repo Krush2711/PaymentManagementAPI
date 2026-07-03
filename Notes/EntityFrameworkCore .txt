@@ -87,5 +87,5 @@ Repository : "How do I talk to the database?"
 Database : "I only store data."
 -------------------------------------------------------------------------------------------------------------------------------------------
 
-  
-  
+#  builder.Services.AddScoped<...>();  ASP.NET -> Remember this mapping. no object no memory 
+# Why Scoped? -> One set per request. That's why it's called Scoped.

@@ -1,4 +1,4 @@
-﻿using PaymentManagementAPI.Models
+﻿using PaymentManagementAPI.Models;
 
 namespace PaymentManagementAPI.Interfaces
 {
