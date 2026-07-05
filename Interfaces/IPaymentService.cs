@@ -1,4 +1,5 @@
-﻿using PaymentManagementAPI.Models;
+﻿using PaymentManagementAPI.DTOs;
+using PaymentManagementAPI.Models;
 
 namespace PaymentManagementAPI.Interfaces
 {
@@ -7,7 +8,7 @@ namespace PaymentManagementAPI.Interfaces
         List<Payment> GetAllPayments();
         void AddPayment(Payment payment);
         Payment? GetPaymentByID(int id);
-        bool UpadtePayment(Payment payment);
+        bool UpadtePayment(int id, CreatePaymentDto dto);
         bool DeletePaymentByID(int id);
         //bool UpdateSelected(Payment payment);
 

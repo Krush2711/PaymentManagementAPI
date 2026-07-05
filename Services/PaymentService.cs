@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
+using PaymentManagementAPI.DTOs;
 using PaymentManagementAPI.Interfaces;
 using PaymentManagementAPI.Models;
 
@@ -29,9 +30,9 @@ namespace PaymentManagementAPI.Services
             return _paymentRepository.DeletePaymentByID(id);
         }
 
-        public bool UpadtePayment(Payment payment)
+        public bool UpadtePayment(int id,CreatePaymentDto dto)
         {
-            return _paymentRepository.UpadtePayment(payment);
+            return _paymentRepository.UpadtePayment(id, dto);
         }
         public List<Payment> GetAllPayments()
         {

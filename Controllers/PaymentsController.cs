@@ -26,7 +26,7 @@ namespace PaymentManagementAPI.Controllers
             //_paymentService.AddPayment(payment);
             //return Ok("Payment Added Successfully"); ---> without dto 
 
-            Payment payment = new Payment()
+            var payment = new Payment()
             {
                 // swagger input 
                 PayerName = dto.PayerName, 
@@ -80,10 +80,21 @@ namespace PaymentManagementAPI.Controllers
 
         }
 
-        [HttpPut]
-        public IActionResult UpadtePayment(Payment payment)
+        //[HttpPut] --> old mthod without dtos 
+        //public IActionResult UpadtePayment(Payment payment)
+        //{
+        //    bool updated = _paymentService.UpadtePayment(payment);
+        //    if (updated)
+        //    {
+        //        return Ok("Payment updated sucessfully.");
+        //    }
+        //    return BadRequest();
+        //}
+
+        [HttpPut("{id}")]
+        public IActionResult UpdtePayment(int id, CreatePaymentDto dto)
         {
-            bool updated = _paymentService.UpadtePayment(payment);
+            bool updated = _paymentService.UpadtePayment(id,dto);
             if (updated)
             {
                 return Ok("Payment updated sucessfully.");

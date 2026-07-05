@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
+using PaymentManagementAPI.DTOs;
 using PaymentManagementAPI.Models;
 
 namespace PaymentManagementAPI.Interfaces
@@ -10,7 +11,7 @@ namespace PaymentManagementAPI.Interfaces
         Payment? GetPaymentByID(int id);
         bool DeletePaymentByID(int id);
 
-        bool UpadtePayment(Payment payment);
+        bool UpadtePayment(int id, CreatePaymentDto dto);
         //bool UpdateSelected(Payment payment);
     }
 }

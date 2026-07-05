@@ -1,7 +1,8 @@
-﻿using PaymentManagementAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PaymentManagementAPI.Data;
+using PaymentManagementAPI.DTOs;
 using PaymentManagementAPI.Interfaces;
 using PaymentManagementAPI.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
 namespace PaymentManagementAPI.Repositories
@@ -45,15 +46,14 @@ namespace PaymentManagementAPI.Repositories
             return false;
         }
 
-        public bool UpadtePayment(Payment payment)
+        public bool UpadtePayment(int id , CreatePaymentDto dto)
         {
-            var existingpayment = _context.Payments.Find(payment.PaymentId);
+            var existingpayment = _context.Payments.Find(id);
             if (existingpayment != null)
             {
-                existingpayment.PayerName = payment.PayerName;
-                existingpayment.PaymentMethod = payment.PaymentMethod;
-                existingpayment.Status = payment.Status;
-                existingpayment.Amount = payment.Amount;
+                existingpayment.PayerName = dto.PayerName;
+                existingpayment.PaymentMethod = dto.PaymentMethod;
+                existingpayment.Amount = dto.Amount;
                 // shortcut -> 
                 //_context.Payments.Update(payment);
                 _context.SaveChanges();
@@ -61,12 +61,7 @@ namespace PaymentManagementAPI.Repositories
             }
             return false;
         }
-        //public bool UpdateSelected(Payment payment)
-        //{
-          
-        //    _context.Payments.Update(payment);
-        //    _context.SaveChanges();
-        //}
+       
 
 
 
