@@ -1,4 +1,5 @@
-﻿using PaymentManagementAPI.Models;
+﻿using Microsoft.AspNetCore.Components.Web;
+using PaymentManagementAPI.Models;
 
 namespace PaymentManagementAPI.Interfaces
 {
@@ -7,5 +8,6 @@ namespace PaymentManagementAPI.Interfaces
         List<Payment> GetAllPayments();
         void Addpayment(Payment payment);
         Payment? GetPaymentByID(int id);
+        bool DeletePaymentByID(int id);
     }
 }

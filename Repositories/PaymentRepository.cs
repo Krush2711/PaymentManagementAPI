@@ -31,5 +31,17 @@ namespace PaymentManagementAPI.Repositories
             _context.Payments.Add(payment);
             _context.SaveChanges();
         }
+
+        public bool DeletePaymentByID(int id)
+        {
+            Payment payment = _context.Payments.Find(id);
+            if (payment != null)
+            {
+                _context.Payments.Remove(payment);
+                _context.SaveChanges();
+                return true;
+            }
+            else { return false; }
+        }
     }
 }

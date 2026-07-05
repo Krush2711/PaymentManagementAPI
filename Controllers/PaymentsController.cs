@@ -42,5 +42,20 @@ namespace PaymentManagementAPI.Controllers
             }
             return NotFound("Payment id dont exist");
         }
+
+        [HttpDelete("{id}")]
+
+        public IActionResult DeletePaymentByID(int id)
+        {
+            var paymnet = _paymentService.GetPaymentByID(id);
+
+            if (paymnet != null)
+            {
+                _paymentService.DeletePaymentByID(id);
+                return Ok();
+            }
+
+            return NotFound("Payment id dont exist");
+        }
     }
 }
