@@ -9,5 +9,7 @@ namespace PaymentManagementAPI.Interfaces
         void Addpayment(Payment payment);
         Payment? GetPaymentByID(int id);
         bool DeletePaymentByID(int id);
+
+        bool UpadtePayment(Payment payment);
     }
 }

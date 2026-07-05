@@ -6,9 +6,8 @@ namespace PaymentManagementAPI.Interfaces
     {
         List<Payment> GetAllPayments();
         void AddPayment(Payment payment);
-
         Payment? GetPaymentByID(int id);
-
+        bool UpadtePayment(Payment payment);
         bool DeletePaymentByID(int id);
     }
 

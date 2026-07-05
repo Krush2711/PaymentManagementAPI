@@ -34,14 +34,34 @@ namespace PaymentManagementAPI.Repositories
 
         public bool DeletePaymentByID(int id)
         {
-            Payment payment = _context.Payments.Find(id);
+            var payment = _context.Payments.Find(id);
             if (payment != null)
             {
                 _context.Payments.Remove(payment);
                 _context.SaveChanges();
                 return true;
             }
-            else { return false; }
+            return false;
         }
+
+        public bool UpadtePayment(Payment payment)
+        {
+            var existingpayment = _context.Payments.Find(payment.PaymentId);
+            if (existingpayment != null)
+            {
+                existingpayment.PayerName = payment.PayerName;
+                existingpayment.PaymentMethod = payment.PaymentMethod;
+                existingpayment.Status = payment.Status;
+                existingpayment.Amount = payment.Amount;
+                // shortcut -> 
+                //_context.Payments.Update(payment);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
+
     }
 }

@@ -28,6 +28,11 @@ namespace PaymentManagementAPI.Services
         {
             return _paymentRepository.DeletePaymentByID(id);
         }
+
+        public bool UpadtePayment(Payment payment)
+        {
+            return _paymentRepository.UpadtePayment(payment);
+        }
         public List<Payment> GetAllPayments()
         {
             return _paymentRepository.GetAllPayments();
