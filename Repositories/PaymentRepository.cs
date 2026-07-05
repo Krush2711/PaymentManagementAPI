@@ -1,7 +1,7 @@
 ﻿using PaymentManagementAPI.Data;
 using PaymentManagementAPI.Interfaces;
 using PaymentManagementAPI.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace PaymentManagementAPI.Repositories
 {
@@ -13,12 +13,23 @@ namespace PaymentManagementAPI.Repositories
             _context = context;
         }
 
+ 
         public List<Payment> GetAllPayments()
         {
-            return new List<Payment>(); 
+            return _context.Payments.ToList();
+
+        }
+
+        public Payment ? GetPaymentByID(int id)
+        {
+            return _context.Payments.Find(id);
         }
 
 
-
+        public void Addpayment(Payment payment)
+        {
+            _context.Payments.Add(payment);
+            _context.SaveChanges();
+        }
     }
 }

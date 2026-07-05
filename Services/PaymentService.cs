@@ -13,6 +13,16 @@ namespace PaymentManagementAPI.Services
             _paymentRepository = paymentRepository;
         }
 
+        public void AddPayment(Payment payment)
+        {
+            _paymentRepository.Addpayment(payment);
+        }
+
+        public Payment? GetPaymentByID( int id)
+        {
+            return _paymentRepository.GetPaymentByID(id);
+        }
+
         public List<Payment> GetAllPayments()
         {
             return _paymentRepository.GetAllPayments();
