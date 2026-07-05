@@ -2,6 +2,7 @@
 using PaymentManagementAPI.Interfaces;
 using PaymentManagementAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace PaymentManagementAPI.Repositories
 {
@@ -60,6 +61,12 @@ namespace PaymentManagementAPI.Repositories
             }
             return false;
         }
+        //public bool UpdateSelected(Payment payment)
+        //{
+          
+        //    _context.Payments.Update(payment);
+        //    _context.SaveChanges();
+        //}
 
 
 

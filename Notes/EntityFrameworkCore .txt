@@ -89,3 +89,22 @@ Database : "I only store data."
 
 #  builder.Services.AddScoped<...>();  ASP.NET -> Remember this mapping. no object no memory 
 # Why Scoped? -> One set per request. That's why it's called Scoped.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+DTOS ->  (Data Transfer Object)
+Instead of exposing your database model directly. This will also answer questions like:
+Why shouldn't clients send PaymentId during POST?
+Why shouldn't every property be editable?
+How do companies hide internal fields?
+How do we avoid over-posting attacks?
+
+[HttpPost]
+public IActionResult AddPayment(Payment payment) -> What is Payment?  Database Model (Entity). {That means the client is directly talking to your database object} Not good.
+"Client, these are the ONLY fields you're allowed to send." 
+It is an object used only for transferring data between the client and your API.
+
+Professional APIs usually have multiple DTOs. 
+CreatePaymentDto -> Used for POST
+UpdatePaymentDto -> Used for PUT
+PaymentResponseDto -> Used for GET
+

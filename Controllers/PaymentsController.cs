@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http; // same like the import pandas as pd -> it is the existing class that we are going to use.
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client.AppConfig;
+using PaymentManagementAPI.DTOs;
 using PaymentManagementAPI.Interfaces;
 using PaymentManagementAPI.Models; // this is the created class / folder we are going to use. tells the C# controller  -> Payment ins
 
@@ -20,10 +21,26 @@ namespace PaymentManagementAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPayment(Payment payment)
+        public IActionResult AddPayment(CreatePaymentDto dto)
         {
+            //_paymentService.AddPayment(payment);
+            //return Ok("Payment Added Successfully"); ---> without dto 
+
+            Payment payment = new Payment()
+            {
+                // swagger input 
+                PayerName = dto.PayerName, 
+                Amount = dto.Amount,
+                PaymentMethod  = dto.PaymentMethod, 
+
+                // server input 
+                PaymentDate = DateTime.Now,
+                Status = "Pending"
+
+            };
             _paymentService.AddPayment(payment);
             return Ok("Payment Added Successfully");
+
         }
 
         public PaymentsController(IPaymentService paymentService)
