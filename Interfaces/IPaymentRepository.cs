@@ -7,13 +7,13 @@ namespace PaymentManagementAPI.Interfaces
     public interface IPaymentRepository
     {
         List<Payment> GetAllPayments();
-        void Addpayment(Payment payment);
         Payment? GetPaymentByID(int id);
-        bool DeletePaymentByID(int id);
+        //bool DeletePaymentByID(int id);
 
-        bool UpadtePayment(int id, CreatePaymentDto dto);
-        //bool UpdateSelected(Payment payment);
+        //bool UpadtePayment(int id, UpdatePaymentdto dto);
+        ////bool UpdateSelected(Payment payment);
         void AddPayment(Payment payment);
+        //bool TransferMoney(TransferMoneyDtocs dto);
 
     }
 }

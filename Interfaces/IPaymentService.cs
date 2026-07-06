@@ -5,12 +5,16 @@ namespace PaymentManagementAPI.Interfaces
 {
     public interface IPaymentService
     {
-        List<Payment> GetAllPayments();
-        void AddPayment(Payment payment);
-        Payment? GetPaymentByID(int id);
-        bool UpadtePayment(int id, CreatePaymentDto dto);
-        bool DeletePaymentByID(int id);
+        List<PaymentResponseDto> GetAllPayments();
+        //void AddPayment(Payment payment);
+        //Payment? GetPaymentByID(int id);
+
+        //bool UpadtePayment(int id, CreatePaymentDto dto);
+        //bool DeletePaymentByID(int id);
         //bool UpdateSelected(Payment payment);
+
+        PaymentResponseDto ? GetPaymentById(int id);
+        bool TransferMoney(TransferMoneyDtocs dto);
 
     }
 

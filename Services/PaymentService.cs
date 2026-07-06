@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
+using PaymentManagementAPI.Data;
 using PaymentManagementAPI.DTOs;
 using PaymentManagementAPI.Interfaces;
 using PaymentManagementAPI.Models;
@@ -9,34 +10,119 @@ namespace PaymentManagementAPI.Services
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly AppDbContext _context;
 
-        public PaymentService(IPaymentRepository paymentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, IUserRepository userRepository, AppDbContext context)
         {
             _paymentRepository = paymentRepository;
+            _userRepository = userRepository;
+            _context = context;
         }
 
-        public void AddPayment(Payment payment)
+        //public void AddPayment(Payment payment)
+        //{
+        //    _paymentRepository.Addpayment(payment);
+        //}
+
+        //public Payment? GetPaymentByID( int id)
+        //{
+        //    return _paymentRepository.GetPaymentByID(id);
+        //}
+
+        //public bool DeletePaymentByID(int id)
+        //{
+        //    return _paymentRepository.DeletePaymentByID(id);
+        //}
+
+        //public bool UpadtePayment(int id,CreatePaymentDto dto)
+        //{
+        //    return _paymentRepository.UpadtePayment(id, dto);
+        //}
+        public List<PaymentResponseDto> GetAllPayments()
         {
-            _paymentRepository.Addpayment(payment);
+            var payments = _paymentRepository.GetAllPayments();
+
+            return payments.Select(p => new PaymentResponseDto
+            {
+                PaymentId = p.PaymentId,
+                SenderId = p.SenderId,
+                ReceiverId = p.ReceiverId,
+                Amount = p.Amount,
+                PaymentMethod = p.PaymentMethod,
+                Status = p.Status,
+                TransactionDate = p.TransactionDate,
+                Note = p.Note
+            }).ToList();
         }
 
-        public Payment? GetPaymentByID( int id)
+        public PaymentResponseDto? GetPaymentById(int id)
         {
-            return _paymentRepository.GetPaymentByID(id);
-        }
+            var payment = _paymentRepository.GetPaymentByID(id);
 
-        public bool DeletePaymentByID(int id)
-        {
-            return _paymentRepository.DeletePaymentByID(id);
-        }
+            if (payment == null)
+                return null;
 
-        public bool UpadtePayment(int id,CreatePaymentDto dto)
-        {
-            return _paymentRepository.UpadtePayment(id, dto);
+            return new PaymentResponseDto
+            {
+                PaymentId = payment.PaymentId,
+                SenderId = payment.SenderId,
+                ReceiverId = payment.ReceiverId,
+                Amount = payment.Amount,
+                PaymentMethod = payment.PaymentMethod,
+                Status = payment.Status,
+                TransactionDate = payment.TransactionDate,
+                Note = payment.Note
+            };
         }
-        public List<Payment> GetAllPayments()
+        public bool TransferMoney(TransferMoneyDtocs dto)
         {
-            return _paymentRepository.GetAllPayments();
+            // Get Sender
+            var sender = _userRepository.GetUserById(dto.SenderID);
+
+            // Get Receiver
+            var receiver = _userRepository.GetUserById(dto.ReceiverId);
+
+            // Validate Users
+            if (sender == null || receiver == null)
+                return false;
+
+            //  Self Transfer
+            if (sender.UserId == receiver.UserId)
+                return false;
+
+            // Check Balance
+            if (sender.Balance < dto.Amount)
+                return false;
+
+            // Deduct Sender Balance
+            sender.Balance -= dto.Amount;
+
+            // Credit Receiver Balance
+            receiver.Balance += dto.Amount;
+
+            // Create Transaction
+            var payment = new Payment
+            {
+                SenderId = dto.SenderID,
+                ReceiverId = dto.ReceiverId,
+                Amount = dto.Amount,
+                PaymentMethod = dto.paymentMethod,
+                Note = dto.Note,
+                Status = "Success",
+                TransactionDate = DateTime.Now
+            };
+
+            _userRepository.UpdateBalance(sender);
+
+            _userRepository.UpdateBalance(receiver);
+
+            _paymentRepository.AddPayment(payment);
+
+            _context.SaveChanges();
+
+            return true;
+
         }
-}
+    }
 }

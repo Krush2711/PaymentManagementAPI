@@ -8,6 +8,7 @@ namespace PaymentManagementAPI.Repositories.UserRepository
     {
         private readonly AppDbContext _context;
 
+
         public UserRepository(AppDbContext context)
         {
             _context = context;
@@ -52,6 +53,11 @@ namespace PaymentManagementAPI.Repositories.UserRepository
             _context.Users.Remove(user);
             _context.SaveChanges();
             return true;
+        }
+
+        public void UpdateBalance(User user)
+        {
+            _context.Users.Update(user);
         }
 }
 }

@@ -178,3 +178,19 @@ AppDbContext
       │
 
 MySQL
+
+
+Database Transactions :
+
+K -> Balance = 1000
+Rahul -> Balance = 500
+Transfer -> 100
+
+PC crashes
+
+
+Krushna = 900
+Rahul = 500
+
+All Success Or  Nothing Happens -> atomic transaction
+

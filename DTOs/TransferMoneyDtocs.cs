@@ -9,7 +9,7 @@ namespace PaymentManagementAPI.DTOs
         public int SenderID { get; set; }
 
         [Required ]
-        public int Receiver {  get; set; }
+        public int ReceiverId {  get; set; }
 
         [Required]
         public decimal Amount { get; set; }
