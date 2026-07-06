@@ -15,6 +15,26 @@ namespace PaymentManagementAPI.Data
 
         }
 
+        public DbSet<User> Users { get; set; }
+
         public DbSet<Payment> Payments { get; set; }     // "Dear Entity Framework, my database has a table called Payments, and each row in that table is represented by the Payment class."
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Sender)
+                .WithMany(u => u.SentPayments)
+                .HasForeignKey(p => p.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Receiver)
+                .WithMany(u => u.ReceivedPayments)
+                .HasForeignKey(p => p.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

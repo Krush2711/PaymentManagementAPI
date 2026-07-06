@@ -13,5 +13,7 @@ namespace PaymentManagementAPI.Interfaces
 
         bool UpadtePayment(int id, CreatePaymentDto dto);
         //bool UpdateSelected(Payment payment);
+        void AddPayment(Payment payment);
+
     }
 }

@@ -1,0 +1,445 @@
+﻿Perfect. This is one of the most important parts of **Entity Framework Core**. Let's understand it like we're designing a database manually.
+
+---
+
+# What is `OnModelCreating()`?
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+```
+
+Think of it as **telling Entity Framework how your database tables should be connected.**
+
+Imagine EF Core asking:
+
+> "Hey developer, I found your classes. How should I create the relationships between them?"
+
+You answer inside `OnModelCreating()`.
+
+---
+
+## First line
+
+```csharp
+base.OnModelCreating(modelBuilder);
+```
+
+This tells EF:
+
+> "First do all the default configuration, then I'll add my own."
+
+Almost every project has this.
+
+---
+
+# Now the interesting part
+
+```csharp
+modelBuilder.Entity<Payment>()
+```
+
+This means
+
+> "I want to configure the `Payment` table."
+
+Imagine opening the Payment table.
+
+```
+Payment
+-------------------
+Id
+Amount
+SenderId
+ReceiverId
+```
+
+Now we're going to explain what SenderId and ReceiverId actually mean.
+
+---
+
+# First Relationship
+
+```csharp
+.HasOne(p => p.Sender)
+```
+
+Read it like English.
+
+**A Payment has one Sender.**
+
+Example
+
+```
+Payment
+
+Id : 1
+Amount : 500
+
+Sender -> Krushna
+```
+
+One payment cannot have two senders.
+
+So
+
+```
+Payment
+    |
+    | has one
+    |
+ Sender
+```
+
+---
+
+Next
+
+```csharp
+.WithMany(u => u.SentPayments)
+```
+
+Read it as
+
+> One User can send many Payments.
+
+Example
+
+```
+Krushna
+
+Payment 1
+Payment 2
+Payment 3
+Payment 4
+```
+
+One person sends many payments.
+
+So
+
+```
+User
+ |
+ |------ Payment
+ |
+ |------ Payment
+ |
+ |------ Payment
+```
+
+That's why
+
+```
+Payment -> One Sender
+
+User -> Many Sent Payments
+```
+
+---
+
+Next
+
+```csharp
+.HasForeignKey(p => p.SenderId)
+```
+
+This tells EF
+
+> "The column named SenderId is the foreign key."
+
+Database
+
+```
+Payment
+
+Id
+Amount
+SenderId
+ReceiverId
+```
+
+If
+
+```
+Users
+
+Id = 5
+Name = Krushna
+```
+
+then
+
+```
+Payment
+
+SenderId = 5
+```
+
+EF now knows
+
+```
+SenderId
+      |
+      |
+      V
+
+Users.Id
+```
+
+---
+
+Next
+
+```csharp
+.OnDelete(DeleteBehavior.Restrict);
+```
+
+This is very important.
+
+Imagine
+
+```
+User
+
+Krushna
+```
+
+and
+
+```
+Payment
+
+Sender = Krushna
+```
+
+Now suppose you delete Krushna.
+
+What should happen?
+
+There are different options.
+
+---
+
+### Restrict
+
+```
+Delete User
+
+↓
+
+Database says
+
+❌ NO
+
+This user has payments.
+```
+
+So you must first delete the payments or change them.
+
+---
+
+Without Restrict
+
+Some databases may delete the payments automatically.
+
+That is dangerous.
+
+So Restrict is safer.
+
+---
+
+# Complete first relationship
+
+```
+Payment
+
+SenderId
+    |
+    V
+
+User
+
+One User
+    |
+Many Payments
+```
+
+---
+
+# Second Relationship
+
+Now comes Receiver.
+
+```csharp
+.HasOne(p => p.Receiver)
+```
+
+Every payment has one receiver.
+
+Example
+
+```
+Payment
+
+Receiver = Rahul
+```
+
+---
+
+```csharp
+.WithMany(u => u.ReceivedPayments)
+```
+
+One user can receive many payments.
+
+Example
+
+```
+Rahul
+
+Received
+
+₹100
+₹500
+₹2000
+₹800
+```
+
+---
+
+```csharp
+.HasForeignKey(p => p.ReceiverId)
+```
+
+This means
+
+```
+ReceiverId
+
+↓
+
+Users.Id
+```
+
+---
+
+```csharp
+.OnDelete(DeleteBehavior.Restrict);
+```
+
+Again,
+
+You cannot delete Rahul while payments still point to him.
+
+---
+
+# Why do we need this?
+
+Suppose your `Payment` class looks like this:
+
+```csharp
+public class Payment
+{
+    public int Id { get; set; }
+
+    public int SenderId { get; set; }
+
+    public User Sender { get; set; }
+
+    public int ReceiverId { get; set; }
+
+    public User Receiver { get; set; }
+}
+```
+
+Notice something?
+
+Both
+
+```
+Sender
+Receiver
+```
+
+are of type `User`.
+
+So EF gets confused.
+
+It thinks:
+
+> "Both Sender and Receiver point to the User table. Which list in User should I connect them to?"
+
+That's why we explicitly tell EF:
+
+```
+Sender
+↓
+
+SentPayments
+```
+
+and
+
+```
+Receiver
+↓
+
+ReceivedPayments
+```
+
+Now EF understands perfectly.
+
+---
+
+# Visual Diagram
+
+```
+                User
+          +---------------+
+          | Id            |
+          | Name          |
+          +---------------+
+           ▲            ▲
+           |            |
+           |            |
+ SenderId  |            | ReceiverId
+           |            |
+           |            |
+      +-----------------------+
+      |      Payment          |
+      |-----------------------|
+      | Id                    |
+      | Amount                |
+      | SenderId              |
+      | ReceiverId            |
+      +-----------------------+
+```
+
+---
+
+# Simple analogy 🏦
+
+Imagine a bank transfer:
+
+```
+Krushna  --------₹500------->  Rahul
+```
+
+The transfer record stores:
+
+```
+Transfer
+
+SenderId = Krushna
+ReceiverId = Rahul
+Amount = 500
+```
+
+Now:
+
+* **One transfer** has **one sender**.
+* **One transfer** has **one receiver**.
+* **One user** can send **many transfers**.
+* **One user** can receive **many transfers**.
+
+This configuration tells EF Core exactly how to build those relationships in the database and how to navigate between `User` and `Payment` objects in your code.
