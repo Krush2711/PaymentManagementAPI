@@ -12,7 +12,7 @@ using PaymentManagementAPI.Data;
 namespace PaymentManagementAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260705113729_UserRelationship")]
+    [Migration("20260706173602_UserRelationship")]
     partial class UserRelationship
     {
         /// <inheritdoc />
@@ -40,9 +40,8 @@ namespace PaymentManagementAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReceiverId")
                         .HasColumnType("int");
