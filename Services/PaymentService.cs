@@ -75,7 +75,7 @@ namespace PaymentManagementAPI.Services
                 Note = payment.Note
             };
         }
-        public bool TransferMoney(TransferMoneyDtocs dto)
+        public DtostranseferResult TransferMoney(TransferMoneyDtocs dto)
         {
             // Get Sender
             var sender = _userRepository.GetUserById(dto.SenderID);
@@ -84,17 +84,53 @@ namespace PaymentManagementAPI.Services
             var receiver = _userRepository.GetUserById(dto.ReceiverId);
 
             // Validate Users
-            if (sender == null || receiver == null)
-                return false;
+            if (sender == null)
+            {
+                return new DtostranseferResult
+                {
+                    Success = false,
+                    Message = "Sender Not found"
+                };
+            }
+
+            if (receiver == null)
+            {
+                return new DtostranseferResult
+                {
+                    Success = false,
+                    Message = "reciver not found"
+                };
+            }
+
 
             //  Self Transfer
             if (sender.UserId == receiver.UserId)
-                return false;
+            {
+                return new DtostranseferResult
+                {
+                    Success = false,
+                    Message = "Self transfer is not allowed."
+                };
+            }
 
             // Check Balance
             if (sender.Balance < dto.Amount)
-                return false;
+            {
+                return new DtostranseferResult
+                {
+                    Success = false,
+                    Message = "Insufficient balance."
+                };
+            }
 
+            if (dto.Amount <= 0)
+            {
+                return new DtostranseferResult
+                {
+                    Success = false,
+                    Message = "Amount should be greater than zero."
+                };
+            }
             // Deduct Sender Balance
             sender.Balance -= dto.Amount;
 
@@ -121,8 +157,13 @@ namespace PaymentManagementAPI.Services
 
             _context.SaveChanges();
 
-            return true;
-
+            return new DtostranseferResult
+            {
+                Success = true,
+                Message = "Money Transferd Successfully",
+                PaymnetId = payment.PaymentId
+            };
+            throw new Exception("Database Failed");
         }
     }
 }

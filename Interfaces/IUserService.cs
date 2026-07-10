@@ -9,7 +9,7 @@ namespace PaymentManagementAPI.Interfaces
 
         UserResponseDto? GetUserById(int id);
 
-        void AddUser(CreateUserDto dto);
+        UserResultDto AddUser(CreateUserDto dto);
 
         bool UpdateUser(int id, UpdateUserDto dto);
 

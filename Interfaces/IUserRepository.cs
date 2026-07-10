@@ -1,5 +1,5 @@
 ﻿using PaymentManagementAPI.Models;
-
+using PaymentManagementAPI.DTOs.User;
 namespace PaymentManagementAPI.Interfaces
 {
     public interface IUserRepository
@@ -11,6 +11,7 @@ namespace PaymentManagementAPI.Interfaces
         bool  DeleteUser(int id);
         void UpdateBalance(User user);
 
+        bool EmailExists(string email);
 
 
     }

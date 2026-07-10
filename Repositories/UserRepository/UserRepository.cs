@@ -59,7 +59,12 @@ namespace PaymentManagementAPI.Repositories.UserRepository
         {
             _context.Users.Update(user);
         }
-}
+
+        public bool EmailExists(string email)
+        {
+            return _context.Users.Any(u => u.EmailAddress == email);
+        }
+    }
 }
 
 

@@ -36,10 +36,15 @@ namespace PaymentManagementAPI.Controllers
             [HttpPost]
             public IActionResult AddUser(CreateUserDto dto)
             {
-                _userService.AddUser(dto);
+            var result = _userService.AddUser(dto);
 
-                return Ok("User Created Successfully");
+            if (!result.Success)
+            {
+                return BadRequest(result);
             }
+
+            return Ok(result);
+        }
 
             [HttpPut("{id}")]
             public IActionResult UpdateUser(int id, UpdateUserDto dto)
@@ -62,6 +67,7 @@ namespace PaymentManagementAPI.Controllers
 
                 return Ok("User Deleted Successfully");
             }
+
         }
 
     }

@@ -33,14 +33,14 @@ namespace PaymentManagementAPI.Controllers
             [HttpPost("transfer")]
         public IActionResult TransferMoney(TransferMoneyDtocs dto)
         {
-            bool success = _paymentService.TransferMoney(dto);
+            var result = _paymentService.TransferMoney(dto);
 
-            if (!success)
+            if (!result.Success)
             {
-                return BadRequest("Transfer Failed");
+                return BadRequest(result);
             }
 
-            return Ok("Money sent successfully.");
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

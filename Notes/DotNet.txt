@@ -1,0 +1,150 @@
+﻿# So, what is .NET?
+.NET is a software development platform created by Microsoft that provides everything needed to build applications.
+It gives you:
+✅ A programming language (like C#)
+✅ Libraries (ready-made code)
+✅ Runtime (to run your program)
+✅ Frameworks (ASP.NET, EF Core, etc.)
+✅ Tools for building web, desktop, mobile, cloud, and games
+
+Def -> .NET is a software development platform developed by Microsoft that provides the runtime, libraries, and tools required to build and run applications using languages like C#.
+
+.NET Framework (Old)
+🪟 Windows only
+🏢 Mostly used for older enterprise applications
+🛠️ Still supported, but no major new features
+📅 Released in 2002
+
+.NET Core (New)
+✅ Windows
+✅ Linux
+✅ macOS
+⚡ Faster
+☁️ Built for cloud, Docker, APIs, and microservices
+🚀 Open source
+
+| .NET Framework          | Modern .NET (.NET Core → .NET 5+)           |
+| ----------------------- | ------------------------------------------- |
+| Windows only            | Windows, Linux, macOS                       |
+| Closed source (mostly)  | Open source                                 |
+| Older architecture      | Modern architecture                         |
+| Slower                  | Faster                                      |
+| Legacy desktop/web apps | APIs, cloud, desktop, mobile, microservices |
+| Maintenance mode        | Actively developed                          |
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Waht is Asp.net ? 
+ASP = Active Server Pages (Microsoft's web technology) .NET = The development platform
+ASP.NET is the web development framework built on top of .NET.
+Its job is to build:
+🌐 Websites
+🔌 REST APIs
+☁️ Backend services
+Real-time applications
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.NET Architecture
+                You
+                 │
+             Write C#
+                 │
+                 ▼
+         C# Compiler (Roslyn)
+                 │
+                 ▼
+          IL (Intermediate Language)
+                 │
+                 ▼
+        CLR (.NET Runtime)
+                 │
+          JIT Compiler
+                 │
+                 ▼
+          Machine Code
+                 │
+                 ▼
+             CPU Executes
+
+The C# compiler compiles it.
+
+Think of IL as a universal language that can later run on different operating systems.
+
+CLR : -> Common Language Runtime
+What does the CLR do? 
+Memory management (Garbage Collection)
+Exception handling
+Security
+Thread management
+Loading assemblies
+Running IL code
+Calling the JIT compiler
+
+JIT :-> 
+The CLR cannot execute IL directly.
+It asks the JIT (Just-In-Time) compiler to convert IL into machine code when the code is needed
+
+CTS (Common Type System) :-> CTS defines how data types are represented in .NET so that different .NET languages can understand each other.\
+For example, a class written in C# can be used by another .NET language because they follow the same type system.
+
+CLS (Common Language Specification) ->  sub set of cts.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Controllers ->  The Reception Desk of your application. Controller is like a Manager
+It decides:
+
+Which request came?
+Which service should handle it?
+What response should be sent back?
+
+What should NOT be inside a Controller?
+
+❌ SQL queries
+
+❌ Complex calculations
+
+❌ Payment processing
+
+❌ Email sending
+
+❌ Business rules
+
+What SHOULD be inside a Controller?
+
+✅ Receive HTTP request
+
+✅ Validate basic input (or delegate validation)
+
+✅ Call the appropriate service
+
+✅ Return the correct HTTP response
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Services -> A Service contains the business logic of the application.
+"Can we move the business logic somewhere else?" ? That "somewhere else" is called a Service.
+Repository -> "I know how to talk to the database."
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+What is Microsoft.AspNetCore.Mvc?
+
+This namespace contains everything needed to build controllers.
+
+It provides things like:
+
+Controller
+ControllerBase
+IActionResult
+[HttpGet]
+[HttpPost]
+[Route]
+[ApiController]
+
+Without this line, C# won't know what those classes and attributes are.
+
+Line 2
+using PaymentManagementAPI.DTOs.User;
+
+👉 Namespace = Address of the class.
+

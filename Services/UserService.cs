@@ -14,8 +14,17 @@ namespace PaymentManagementAPI.Services
             _userRepository = userRepository;
         }
 
-        public void AddUser(CreateUserDto dto)
+        public UserResultDto AddUser(CreateUserDto dto)
         {
+            if (_userRepository.EmailExists(dto.Email))
+            {
+                return new UserResultDto
+                {
+                    Success = false,
+                    Message = "Email already exists."
+                };
+            }
+
             var user = new User
             {
                 UserName = dto.Name,
@@ -26,6 +35,15 @@ namespace PaymentManagementAPI.Services
             };
 
             _userRepository.AddUser(user);
+
+            return new UserResultDto
+            {
+                Success = true,
+                Message = "User created successfully.",
+                UserId = user.UserId
+            };
+
+
         }
 
         public List<UserResponseDto> GetAllUsers()
@@ -70,6 +88,7 @@ namespace PaymentManagementAPI.Services
             };
 
             return _userRepository.UpdateUser(id , user);
+            throw new Exception("Database Failed");
         }
 
         public bool DeleteUser(int id)

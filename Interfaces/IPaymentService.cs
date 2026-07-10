@@ -14,7 +14,7 @@ namespace PaymentManagementAPI.Interfaces
         //bool UpdateSelected(Payment payment);
 
         PaymentResponseDto ? GetPaymentById(int id);
-        bool TransferMoney(TransferMoneyDtocs dto);
+        DtostranseferResult TransferMoney(TransferMoneyDtocs dto);
 
     }
 
