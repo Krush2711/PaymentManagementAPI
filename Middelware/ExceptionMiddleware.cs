@@ -32,4 +32,5 @@ namespace PaymentManagementAPI.Middelware
                     JsonSerializer.Serialize(response));
             }
         }
+    }
 }
