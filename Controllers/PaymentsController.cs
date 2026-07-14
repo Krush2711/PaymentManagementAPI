@@ -32,6 +32,7 @@ namespace PaymentManagementAPI.Controllers
             return Ok(payments);
         }
 
+        [Authorize]
             [HttpPost("transfer")]
         public IActionResult TransferMoney(TransferMoneyDtocs dto)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PaymentManagementAPI.DTOs.User;
 using PaymentManagementAPI.Interfaces;
 using static PaymentManagementAPI.DTOs.User.DataAnnotations;
@@ -16,8 +17,10 @@ namespace PaymentManagementAPI.Controllers
                 _userService = userService;
             }
 
+            [Authorize(Roles = "Admin")]
             [HttpGet]
-            public IActionResult GetAllUsers()
+
+        public IActionResult GetAllUsers()
             {
                 return Ok(_userService.GetAllUsers());
             }
@@ -68,6 +71,7 @@ namespace PaymentManagementAPI.Controllers
                 return Ok("User Deleted Successfully");
             }
 
+        [Authorize(Roles = "Admin")]
         [HttpPatch("soft-delete/{id}")]
         public IActionResult SoftDeleteUser(int id)
         {
