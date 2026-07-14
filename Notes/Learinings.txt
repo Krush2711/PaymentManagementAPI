@@ -194,3 +194,17 @@ Rahul = 500
 
 All Success Or  Nothing Happens -> atomic transaction
 
+---------------------------------------------------------------------------------------------
+Claims
+Think of a JWT as a digital ID card. Your token contains,
+
+UserId
+
+UserName
+
+Email
+
+Role
+
+These are called Claims.
+----------------------------------------------x-----------------------------------------------

@@ -55,6 +55,21 @@ namespace PaymentManagementAPI.Repositories.UserRepository
             return true;
         }
 
+        public bool SoftDeleteUser(int id)
+        {
+            var user = _context.Users.Find(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.IsActive = false;
+
+            _context.SaveChanges();
+
+            return true;
+        }
         public void UpdateBalance(User user)
         {
             _context.Users.Update(user);
@@ -63,6 +78,17 @@ namespace PaymentManagementAPI.Repositories.UserRepository
         public bool EmailExists(string email)
         {
             return _context.Users.Any(u => u.EmailAddress == email);
+        }
+
+        public User ? GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault( u => u.EmailAddress == email); // this will return the entire -> entire object return so password hash will be get matched.
+                                                                                 //
+        }
+
+        public bool PhoneExists(string phoneNumber)
+        {
+            return _context.Users.Any( u => u.PhoneNumber == phoneNumber);
         }
     }
 }

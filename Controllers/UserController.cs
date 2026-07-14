@@ -68,7 +68,20 @@ namespace PaymentManagementAPI.Controllers
                 return Ok("User Deleted Successfully");
             }
 
+        [HttpPatch("soft-delete/{id}")]
+        public IActionResult SoftDeleteUser(int id)
+        {
+            bool deleted = _userService.SoftDeleteUser(id);
+
+            if (!deleted)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok("User deactivated successfully.");
         }
+
+    }
 
     }
 

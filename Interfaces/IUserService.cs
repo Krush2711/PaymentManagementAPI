@@ -14,5 +14,6 @@ namespace PaymentManagementAPI.Interfaces
         bool UpdateUser(int id, UpdateUserDto dto);
 
         bool DeleteUser(int id);
+        bool SoftDeleteUser(int id);
     }
 }

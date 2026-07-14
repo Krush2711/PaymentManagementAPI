@@ -96,6 +96,11 @@ namespace PaymentManagementAPI.Services
             return _userRepository.DeleteUser(id);
         }
 
+        public bool SoftDeleteUser(int id)
+        {
+            return _userRepository.SoftDeleteUser(id);
+        }
+
     }
 
 }

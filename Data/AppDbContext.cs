@@ -24,17 +24,21 @@ namespace PaymentManagementAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Payment>()
-                .HasOne(p => p.Sender)
-                .WithMany(u => u.SentPayments)
-                .HasForeignKey(p => p.SenderId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Payment>() // Configure the Payment table
+                .HasOne(p => p.Sender)    // Each Payment has one Sender (User)
+                .WithMany(u => u.SentPayments) // One User can have many sent Payments          
+                .HasForeignKey(p => p.SenderId)  // // SenderId is the foreign key
 
+                .OnDelete(DeleteBehavior.Restrict); // // Don't allow deleting the User if related Payments exist
+
+            // One Payment has one Sender (User), one User can send many Payments, SenderId is the foreign key, and deleting a User is restricted if they have sent payments.
             modelBuilder.Entity<Payment>()
                 .HasOne(p => p.Receiver)
                 .WithMany(u => u.ReceivedPayments)
                 .HasForeignKey(p => p.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // 
         }
     }
 }

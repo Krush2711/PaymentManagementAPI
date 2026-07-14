@@ -23,12 +23,15 @@ namespace PaymentManagementAPI.Models
         public decimal Balance { get; set; }
         
         public DateTime CreatedDate { get; set; }
+        public bool IsActive { get; set; } = true;
 
         // Navigation Properties
         public ICollection<Payment> SentPayments { get; set; } // ICollection<Payment> is another collection type that EF Core prefers for navigation properties.
 
         public ICollection<Payment> ReceivedPayments { get; set; }
 
+        public string PasswordHash { get; set; } // we dont sorte the password directly -> we use the passwordhash
+        public string Role { get; set; } = "User";
 
     }
 }

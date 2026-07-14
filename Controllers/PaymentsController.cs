@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http; // same like the import pandas as pd -> it is the existing class that we are going to use.
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http; // same like the import pandas as pd -> it is the existing class that we are going to use.
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client.AppConfig;
 using PaymentManagementAPI.DTOs;
@@ -17,6 +18,7 @@ namespace PaymentManagementAPI.Controllers
             _paymentService = paymentService;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetAllPayments()
         {
